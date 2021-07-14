@@ -5,15 +5,17 @@ import HandTrackingModule as htm
 
 wCam, hCam = 640, 480
 
-cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+#cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(cv2.CAP_DSHOW)
 cap.set(3, wCam)
 cap.set(4, hCam)
 
 folderPath = "FingerImages"
 myList = os.listdir(folderPath)
-# print(myList)
+#print(myList)
 overlayList = []
 for imPath in myList:
+    #image = cv2.imread(f'{folderPath}/{imPath}')
     image = cv2.imread(f'{folderPath}/{imPath}')
     print(f'{folderPath}/{imPath}')
     overlayList.append(image)
