@@ -54,9 +54,12 @@ while True:
             clocY = plocY + (y3 - plocY) / smoothening
 
             # 7. Move Mouse
-            autopy.mouse.move(wScr-x3, y3)
-            cv2.circle(img, (x1,y1), 15, (255,0,255), cv2.FILLED)
-            plocX, plocY = clocX, clocY
+            try:
+                autopy.mouse.move(wScr-x3, y3)
+                cv2.circle(img, (x1,y1), 15, (255,0,255), cv2.FILLED)
+                plocX, plocY = clocX, clocY
+            except:
+                print("Point out of bounds")
 
         # 8. Both Index and middle fingers are up : Clicking Mode
         if fingers[1]==1 and fingers[2] == 1:
