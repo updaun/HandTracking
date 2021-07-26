@@ -6,7 +6,7 @@ import HandTrackingModule as htm
 wCam, hCam = 640, 480
 
 #cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-cap = cv2.VideoCapture(cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(3, wCam)
 cap.set(4, hCam)
 
@@ -31,7 +31,7 @@ while True:
 
     success, img = cap.read()
     img = detector.findHands(img)
-    lmList = detector.findPosition(img, draw=False)
+    lmList, bbox = detector.findPosition(img, draw=False)
     # print(lmList)
     if len(lmList) != 0:
         # if lmList[8][2] < lmList[6][2]:
