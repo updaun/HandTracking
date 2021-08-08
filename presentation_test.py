@@ -11,10 +11,10 @@ from pynput.keyboard import Key, Controller
 kbControl = Controller()
 
 
-actions = ['come', 'away', 'spin']
+actions = ['go', 'back', 'start', 'finish']
 seq_length = 30
 
-model = load_model('models/model2_1.0.h5')
+model = load_model('models/model.h5')
 
 # MediaPipe hands model
 mp_hands = mp.solutions.hands
@@ -90,22 +90,51 @@ while cap.isOpened():
                 this_action = action
 
                 if last_action != this_action:
-                    if this_action == 'come':
+                    if this_action == 'go':
                         
                         kbControl.press(Key.right)
                         kbControl.release(Key.right)
 
-                    elif this_action == 'away':
+                    elif this_action == 'back':
 
                         kbControl.press(Key.left)
                         kbControl.release(Key.left)
 
-                    elif this_action == 'spin':
+                    elif this_action == 'start':
 
-                        kbControl.press('c')
-                        kbControl.release('c')
+                        kbControl.press(Key.f5)
+                        kbControl.release(Key.f5)
+
+                    elif this_action == 'finish':
+
+                        kbControl.press(Key.esc)
+                        kbControl.release(Key.esc)
 
                     last_action = this_action
+
+                # text input test
+                # if last_action != this_action:
+                #     if this_action == 'go':
+                        
+                #         kbControl.press('g')
+                #         kbControl.release('g')
+
+                #     elif this_action == 'back':
+
+                #         kbControl.press('b')
+                #         kbControl.release('b')
+
+                #     elif this_action == 'start':
+
+                #         kbControl.press('s')
+                #         kbControl.release('s')
+
+                #     elif this_action == 'finish':
+
+                #         kbControl.press('f')
+                #         kbControl.release('f')
+
+                #     last_action = this_action
 
             cv2.putText(img, f'{this_action.upper()}', org=(int(res.landmark[0].x * img.shape[1]), int(res.landmark[0].y * img.shape[0] + 20)), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
 
