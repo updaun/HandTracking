@@ -1,9 +1,10 @@
 from typing import overload
 import cv2
 import numpy as np
-import time
 import os
 import HandTrackingModule as htm
+# from datetime import datetime
+# import pytz
 
 ###################################
 brushThickness = 15
@@ -16,12 +17,21 @@ myList = os.listdir(folderPath)
 
 overlayList =[]
 
+img_counter = 1
+
+# time_zone = pytz.timezone('Asia/Seoul')
+
+# now = datetime.now(time_zone)
+
+# current_time = now.strftime("%H%M")
+
+
 for imPath in myList:
     image = cv2.imread(f'{folderPath}/{imPath}')
     overlayList.append(image)
 # print(len(overlayList))
 
-header = overlayList[0]\
+header = overlayList[0]
 
 # default color
 drawColor = (230, 230, 230)
@@ -35,6 +45,7 @@ cap.set(4, 600)
 detector = htm.handDetector(detectionCon=0.85)
 xp, yp = 0, 0
 imgCanvas = np.zeros((480, 848, 3), np.uint8)
+whiteCanvas = imgCanvas + 255
 imgInv = np.zeros((480, 848, 3), np.uint8)
 
 while True:
@@ -101,12 +112,14 @@ while True:
             if drawColor == (255,255,255):
                 cv2.line(img, (xp, yp), (x1,y1), (0,0,0), eraserThickness)
                 cv2.line(imgCanvas, (xp, yp), (x1,y1), (0,0,0), eraserThickness)
+                cv2.line(whiteCanvas, (xp, yp), (x1,y1), (255,255,255), eraserThickness)
                 cv2.circle(img, (x1, y1), int(eraserThickness/2)+2, (230,230,230), cv2.FILLED)
 
             else:
                 cv2.circle(img, (x1, y1), 15, drawColor, cv2.FILLED)
                 cv2.line(img, (xp, yp), (x1,y1), drawColor, brushThickness)
                 cv2.line(imgCanvas, (xp, yp), (x1,y1), drawColor, brushThickness)
+                cv2.line(whiteCanvas, (xp, yp), (x1,y1), drawColor, brushThickness)
 
             xp, yp = x1, y1
 
@@ -123,9 +136,21 @@ while True:
     # img = cv2.addWeighted(img, 0.5, imgCanvas, 0.5, 0)
     cv2.imshow("Image", img)
     # cv2.imshow("Canvas", imgCanvas)
+    # cv2.imshow("whiteCanvas", whiteCanvas)
     # cv2.imshow("ImgInv", imgInv)
 
     if cv2.waitKey(1) & 0xFF == 27:
+        cv2.imwrite(f'./output_image/canvas_{img_counter}.png', whiteCanvas)
+        print("Save Canvas Successfully")
         break
 
+    # Spacebar 또는 Return 누르면 whiteCanvas 저장
+    if cv2.waitKey(1) & 0xFF == 32 or cv2.waitKey(1) & 0xFF == 13:
+        cv2.imwrite(f'./output_image/canvas_{img_counter}.png', whiteCanvas)
+        print("Save Canvas Successfully")
+        img_counter += 1
+
 cv2.destroyAllWindows()
+
+
+
