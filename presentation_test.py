@@ -111,8 +111,9 @@ while cap.isOpened():
                         kbControl.release(Key.esc)
 
                     last_action = this_action
-
+                ####################################################
                 # text input test
+                ####################################################
                 # if last_action != this_action:
                 #     if this_action == 'go':
                         
