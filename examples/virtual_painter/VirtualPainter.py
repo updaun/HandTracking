@@ -1,8 +1,9 @@
 from typing import overload
 import cv2
 import numpy as np
-import os
-import HandTrackingModule as htm
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules.HandTrackingModule import handDetector
 # from datetime import datetime
 # import pytz
 
@@ -42,21 +43,21 @@ drawColor = (230, 230, 230)
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # cap = cv2.VideoCapture(0)
-cap.set(3, 800)
-cap.set(4, 600)
+cap.set(3, 864)
+cap.set(4, 480)
 
 # detectionCon를 지정하여 손을 정확히 찾는다.(그림을 잘 그리기 위해서 수정)
-detector = htm.handDetector(detectionCon=0.85)
+detector = handDetector(min_detection_confidence=0.85)
 
 # previous 좌표
 xp, yp = 0, 0
 
 # 검정색 캔버스
-imgCanvas = np.zeros((480, 848, 3), np.uint8)
+imgCanvas = np.zeros((480, 864, 3), np.uint8)
 # 하얀색 캔버스
 whiteCanvas = imgCanvas + 255
 # 하얀색 캔버스
-imgInv = np.zeros((480, 848, 3), np.uint8)
+imgInv = np.zeros((480, 864, 3), np.uint8)
 
 while True:
 
@@ -85,7 +86,7 @@ while True:
         # 3. Check which fingers are up
         # 손가락이 펴져있는지 아닌지 체크하는 함수
         fingers = detector.fingersUp()
-        print(fingers)
+        # print(fingers)
 
         # 4. If Selection Mode - Two fingers are up
         # 검지와 중지가 펴져있을 때
@@ -149,6 +150,7 @@ while True:
     imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
     _, imgInv = cv2.threshold(imgGray, 10, 255, cv2.THRESH_BINARY_INV)
     imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+    # print(img.shape, imgInv.shape)
     img = cv2.bitwise_and(img, imgInv)
     img = cv2.bitwise_or(img, imgCanvas)
 

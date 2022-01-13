@@ -1,11 +1,15 @@
 import cv2
 import time
 import numpy as np
-import HandTrackingModule as htm
 import math
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules.HandTrackingModule import handDetector
+
 
 ##############################################
 wCam, hCam = 640, 480
@@ -18,7 +22,7 @@ cap.set(4, hCam)
 cTime = 0
 pTime = 0
 
-detector = htm.handDetector(detectionCon=0.7)
+detector = handDetector(min_detection_confidence=0.7)
 
 
 devices = AudioUtilities.GetSpeakers()

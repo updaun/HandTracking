@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
-import HandTrackingModule as htm
 import time
 import autopy
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules.HandTrackingModule import handDetector
 
 #####################################
 wCam, hCam = 640, 480
@@ -18,7 +21,7 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(3, 640)
 cap.set(4, 480)
 
-detector = htm.handDetector(maxHands=1)
+detector = handDetector(max_num_hands=1)
 wScr, hScr = autopy.screen.size()
 # print(wScr, hScr)
 
@@ -78,6 +81,9 @@ while True:
     cTime = time.time()
     fps = 1/(cTime-pTime)
     pTime = cTime
+
+    img = cv2.flip(img, 1)
+    
     cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
     (255,0,0), 3)
     # 12. Display

@@ -1,7 +1,8 @@
 import cv2
 import time
-import os
-import HandTrackingModule as htm
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules.HandTrackingModule import handDetector
 
 wCam, hCam = 640, 480
 
@@ -23,7 +24,7 @@ for imPath in myList:
 # print(len(overlayList))
 pTime = 0
 
-detector = htm.handDetector(detectionCon=0.75)
+detector = handDetector(min_detection_confidence=0.75)
 
 tipIds = [4, 8, 12, 16, 20]
 
