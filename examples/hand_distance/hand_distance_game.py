@@ -1,13 +1,16 @@
 import cv2
-from cvzone.HandTrackingModule import HandDetector
 import math
 import numpy as np
 import cvzone
 import random
 import time
 
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules import HandDetector
+
 # Webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(3, 1280)
 cap.set(4, 720)
 
@@ -44,12 +47,13 @@ while True:
             
             x,y,w,h = hands[0]['bbox']
 
-            x1, y1 = lmList[5]
-            x2, y2 = lmList[17]
+            x1, y1 = lmList[5][1:3]
+            x2, y2 = lmList[17][1:3]
 
             distance = int(math.sqrt((y2-y1)**2 + (x2-x1)**2))
             A, B, C = coff
-            distanceCM = int(A*distance**2 + B*distance + C)
+            # distanceCM = int(A*distance**2 + B*distance + C)
+            distanceCM = int(A*distance**2 + B*distance + C/2)
 
             if distanceCM < 40:
                 if x < cx < x+w and y < cy < y+h:
@@ -95,4 +99,6 @@ while True:
     if key == ord('r'):
         timeStart = time.time()
         score = 0
+    elif key == 27:
+        break
 

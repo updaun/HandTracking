@@ -1,9 +1,12 @@
 import cv2
-from cvzone.HandTrackingModule import HandDetector
 import time
 import numpy as np
 import cvzone
 from pynput.keyboard import Controller
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+from modules import HandDetector
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(3, 1280)
@@ -96,7 +99,7 @@ while True:
                 cv2.rectangle(img, (x-5,y-5), (x+w+5, y+h+5), (175,0,175), cv2.FILLED)
                 cv2.putText(img, button.text, (x+20, y+65), cv2.FONT_HERSHEY_PLAIN,
                             4, (255,255,255), 4)
-                length, _ = detector.findDistance(8, 12)
+                length, _ = detector.findDistance(lmList[8][1:3], lmList[12][1:3])
                 # print(l)
 
                 # when clicked
@@ -133,4 +136,6 @@ while True:
                                 5, (255,255,255), 5)
 
     cv2.imshow("Image", img)
+    if cv2.waitKey(1) & 0xFF == 27:
+        break
     cv2.waitKey(1)

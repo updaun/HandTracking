@@ -43,8 +43,8 @@ drawColor = (230, 230, 230)
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # cap = cv2.VideoCapture(0)
-cap.set(3, 864)
-cap.set(4, 480)
+cap.set(3, 848)
+cap.set(4, 636)
 
 # detectionCon를 지정하여 손을 정확히 찾는다.(그림을 잘 그리기 위해서 수정)
 detector = handDetector(min_detection_confidence=0.85)
@@ -53,17 +53,18 @@ detector = handDetector(min_detection_confidence=0.85)
 xp, yp = 0, 0
 
 # 검정색 캔버스
-imgCanvas = np.zeros((480, 864, 3), np.uint8)
+imgCanvas = np.zeros((636, 848, 3), np.uint8)
 # 하얀색 캔버스
 whiteCanvas = imgCanvas + 255
 # 하얀색 캔버스
-imgInv = np.zeros((480, 864, 3), np.uint8)
+imgInv = np.zeros((636, 848, 3), np.uint8)
 
 while True:
 
     # 1. Import image
     success, img = cap.read()
-    # print(img.shape)
+    img = cv2.resize(img, (848, 636))
+    print(img.shape)
 
     # 사용자 인식을 위해 Filp
     img = cv2.flip(img, 1)
