@@ -50,7 +50,7 @@ while True:
 
             # 5. Convert Coordicates
             x3 = np.interp(x1, (frameR,wCam-frameR), (0,wScr))
-            y3 = np.interp(x1, (frameR,hCam-frameR), (0,hScr))
+            y3 = np.interp(y1, (frameR,hCam-frameR), (0,hScr))
 
             # 6. Smoothen Values
             clocX = plocX + (x3 - plocX) / smoothening
