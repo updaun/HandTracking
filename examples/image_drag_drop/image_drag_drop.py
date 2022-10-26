@@ -3,7 +3,7 @@ import cvzone
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-from modules import HandDetector
+from modules.HandTrackingModule_cvzone import HandDetector
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(3, 1280)
@@ -59,9 +59,9 @@ while True:
         lmList = hands[0]['lmList']
 
         # Check if clicked
-        length, info, img = detector.findDistance(lmList[8][1:3], lmList[12][1:3], img)
-        # print(length)
-        if length < 60:
+        length, info, img = detector.findDistance(lmList[4][1:3], lmList[12][1:3], img)
+        print("distance : ", length)
+        if length < 80:
             cursor = lmList[8]
             for imgObject in listImg:
                 imgObject.update(cursor)

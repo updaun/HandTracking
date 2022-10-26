@@ -173,7 +173,7 @@ class HandDetector:
         x1, y1 = p1
         x2, y2 = p2
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-        length = math.hypot(x2 - x1, y2 - y1)
+        length = int(math.hypot(x2 - x1, y2 - y1))
         info = (x1, y1, x2, y2, cx, cy)
         if img is not None:
             cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
@@ -183,6 +183,26 @@ class HandDetector:
             return length, info, img
         else:
             return length, info
+
+    def findAngle(self, p1, p2, p3):
+        """
+        Find the angle between three landmarks based on their
+        index numbers.
+        :param p1: Point1
+        :param p2: Point2
+        :param p3: Point3
+        :return: Angle 
+        """
+
+        x1, y1 = p1
+        x2, y2 = p2
+        x3, y3 = p3
+
+        # 각도 계산
+        radian = math.atan2(y3-y2,x3-x2)-math.atan2(y1-y2,x1-x2)
+        angle = math.degrees(radian)
+        
+        return angle
 
 
 def main():

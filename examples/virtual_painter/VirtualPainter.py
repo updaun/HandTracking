@@ -59,12 +59,14 @@ whiteCanvas = imgCanvas + 255
 # 하얀색 캔버스
 imgInv = np.zeros((636, 848, 3), np.uint8)
 
+previous_mode = ''
+mode = ''
+
 while True:
 
     # 1. Import image
     success, img = cap.read()
     img = cv2.resize(img, (848, 636))
-    print(img.shape)
 
     # 사용자 인식을 위해 Filp
     img = cv2.flip(img, 1)
@@ -93,7 +95,7 @@ while True:
         # 검지와 중지가 펴져있을 때
         if fingers[1] and fingers[2]:
             xp, yp = 0, 0
-            print("Selection Mode")
+            mode = "Selection Mode"
             # Checking for the click
             if y1 < 100:
                 # Dark Gray -> while
@@ -128,7 +130,7 @@ while True:
         # 5. If Drawing Mode - Index finger is up
         # 검지 손가락은 펴지고, 중지손가락은 펴지지 않을 상태
         if fingers[1] and fingers[2] == False:
-            print("Drawing Mode")
+            mode = "Drawing Mode"
             if xp == 0 and yp == 0:
                 xp, yp = x1, y1
 
@@ -165,6 +167,15 @@ while True:
     # cv2.imshow("Canvas", imgCanvas)
     # cv2.imshow("whiteCanvas", whiteCanvas)
     # cv2.imshow("ImgInv", imgInv)
+    
+    if mode != previous_mode:
+
+        print("\n"+"*"*30)
+        print(mode)
+        print("*"*30 + "\n")
+        
+        previous_mode = mode
+
 
     if cv2.waitKey(1) & 0xFF == 27:
         cv2.imwrite(f'./output_image/canvas_{img_counter}.png', whiteCanvas)

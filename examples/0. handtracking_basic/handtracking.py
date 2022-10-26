@@ -38,6 +38,12 @@ with mp_hands.Hands(
           mp_drawing_styles.get_default_hand_connections_style())
     cv2.imwrite(
         '/tmp/annotated_image' + str(idx) + '.png', cv2.flip(annotated_image, 1))
+    # Draw hand world landmarks.
+    if not results.multi_hand_world_landmarks:
+      continue
+    for hand_world_landmarks in results.multi_hand_world_landmarks:
+      mp_drawing.plot_landmarks(
+        hand_world_landmarks, mp_hands.HAND_CONNECTIONS, azimuth=5)
 
 # For webcam input:
 cap = cv2.VideoCapture(0)

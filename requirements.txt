@@ -1,6 +1,10 @@
-opencv-contrib-python
+opencv-python
 mediapipe
 comtypes
 pycaw
 autopy
 win10toast
+cvzone
+pynput
+hangul-utils==0.2
+JPype1==1.3.0
