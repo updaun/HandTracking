@@ -7,6 +7,13 @@ from modules.HandTrackingModule import handDetector
 # from datetime import datetime
 # import pytz
 
+def createDirectory(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print("Error: Failed to create the directory.")
+
 ###################################
 brushThickness = 15
 eraserThickness = 50
@@ -178,17 +185,21 @@ while True:
 
 
     if cv2.waitKey(1) & 0xFF == 27:
+        createDirectory("./output_image")
         cv2.imwrite(f'./output_image/canvas_{img_counter}.png', whiteCanvas)
         print("Save Canvas Successfully")
         break
 
     # Spacebar 또는 Return 누르면 whiteCanvas 저장
     if cv2.waitKey(1) & 0xFF == 32 or cv2.waitKey(1) & 0xFF == 13:
+        createDirectory("./output_image")
         cv2.imwrite(f'./output_image/canvas_{img_counter}.png', whiteCanvas)
         print("Save Canvas Successfully")
         img_counter += 1
 
 cv2.destroyAllWindows()
+
+
 
 
 
